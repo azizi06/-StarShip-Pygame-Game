@@ -1,34 +1,36 @@
 import pygame, sys
 from pygame.locals import *
 import Constants
-from Button import Button
+from Components.Button import Button
+from Screens.StartScreen import StartScreen
+from Screens.GameScreen import GameScreen
 import main1
-FPS =  pygame.time.Clock()
-pygame.init()
-DISPLAYSURF = pygame.display.set_mode((Constants.SCREEN_WIDTH, Constants.SCREEN_HIEGHT))
+def main():
+    FPS =  pygame.time.Clock()
+    pygame.init()
+    DISPLAYSURF = pygame.display.set_mode((Constants.SCREEN_WIDTH, Constants.SCREEN_HIEGHT))
+    pygame.display.set_caption('StarShip Journey')
+    currentScreen = StartScreen()
+    ScreenMap = {
+        "Start" : StartScreen,
+        "Game" : GameScreen
 
-pygame.display.set_caption('StarShip Journey')
-Circle = pygame.draw.circle(DISPLAYSURF,(255,0,0),(200,200),30,20)
-Home = True
-
-StartButton = Button(200,200,60,60,"start", pygame.font.Font(None, 24),(200,40,104),(95,12,76))
-
-
-while True: # main game loop
-    DISPLAYSURF.fill(Constants.BACKGROUNDCOLOR)
-    mouse_pos = pygame.mouse.get_pos()
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
-        elif event.type == pygame.MOUSEBUTTONDOWN :
-            if StartButton.is_hovered(event.pos) :
-                main1.StartGame()
-                print("Cliking Button")
+    }
+    while True: # main game loop
+        events = pygame.event.get()
+       
+        for event in events:
+            if event.type == QUIT: 
+                pygame.quit()
+                sys.exit()
+        currentScreen.draw(DISPLAYSURF)        
+        currentScreen.handle_events(events=events)
+        currentScreen.update()
+        if currentScreen.next_screen :
+            currentScreen = ScreenMap[currentScreen.next_screen]()
+        
+        pygame.display.update()     
+        FPS.tick(Constants.FPS)
+if __name__ == "__main__" :
    
-    StartButton.draw(DISPLAYSURF)
-    StartButton.update(mouse_pos=mouse_pos)
-    pygame.display.update()
-    
-    FPS.tick(Constants.FPS)
-   
+    main()
