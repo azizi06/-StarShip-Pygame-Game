@@ -1,9 +1,9 @@
 # Example file showing a basic pygame "game loop"
 import pygame
-from Health import Heart
+from Sprites.Health import Heart
 from Player import Player
 from star import Star 
-from meteor import Meteor
+from Sprites.meteor import Meteor
 import pygame.locals
 import random
 # pygame setup
@@ -163,3 +163,6 @@ def StartGame():
         clock.tick(60)  # limits FPS to 60
 
     pygame.quit()
+
+if __name__ == "__main__" :
+    StartGame()

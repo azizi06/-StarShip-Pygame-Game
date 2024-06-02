@@ -16,7 +16,7 @@ class StartScreen(Screen):
         for event in events :
             if event.type == pygame.MOUSEBUTTONDOWN :
                 if self.StartButton.is_hovered(pygame.mouse.get_pos()) :
-                    print("Handling Event")
+                    print("switch to Game screen")
                     self.next_screen= "Game"
             pass
     
