@@ -15,6 +15,7 @@ class Button:
         text_surface = self.font.render(self.text, True, (0,0,0))
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
+        
 
     def is_hovered(self, mouse_pos):
         return self.rect.collidepoint(mouse_pos)

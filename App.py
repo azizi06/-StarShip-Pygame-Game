@@ -18,9 +18,10 @@ class App:
     }
     def __init__(self) -> None:
         self.runing = True
+        pygame.init()
+        pygame.font.init()
     def run(self):
         FPS =  pygame.time.Clock()
-        pygame.init()
         DISPLAYSURF = pygame.display.set_mode((Constants.SCREEN_WIDTH, Constants.SCREEN_HIEGHT))
         pygame.display.set_caption('StarShip Journey')
         currentScreen = StartScreen()
@@ -39,5 +40,6 @@ class App:
             
             pygame.display.update()     
             FPS.tick(Constants.FPS)
-if __name__ == "__main__" :  
+if __name__ == "__main__" :
+  
    App().run()

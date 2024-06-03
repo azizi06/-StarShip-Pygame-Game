@@ -2,7 +2,7 @@
 import pygame
 from Sprites.Health import Heart
 from Player import Player
-from star import Star 
+from Sprites.Star import Star 
 from Sprites.meteor import Meteor
 import pygame.locals
 import random
