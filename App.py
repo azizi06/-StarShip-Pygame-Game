@@ -10,16 +10,20 @@ import Constants
 from Components.Button import Button
 from Screens.StartScreen import StartScreen
 from Screens.GameScreen import GameScreen
+from Screens.AboutScreen import AboutScreen
+from Screens.Screen import Screen
+
 import main1
 class App:
-    ScreenMap = {
-            "Start" : StartScreen,
-            "Game" : GameScreen
+    ScreenMap : dict[str,Screen]= {
+            "About" : AboutScreen(),
+            "Start" : StartScreen(),
+            "Game" : GameScreen()
     }
     def __init__(self) -> None:
         self.runing = True
         pygame.init()
-        pygame.font.init()
+       
     def run(self):
         FPS =  pygame.time.Clock()
         DISPLAYSURF = pygame.display.set_mode((Constants.SCREEN_WIDTH, Constants.SCREEN_HIEGHT))
@@ -35,8 +39,10 @@ class App:
             currentScreen.draw(DISPLAYSURF)        
             currentScreen.handle_events(events=events)
             currentScreen.update()
-            if currentScreen.next_screen :
-                currentScreen = self.ScreenMap[currentScreen.next_screen]()
+            if Screen.next_screen :
+
+                currentScreen = self.ScreenMap[Screen.next_screen]
+                Screen.next_screen = None
             
             pygame.display.update()     
             FPS.tick(Constants.FPS)

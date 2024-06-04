@@ -5,11 +5,14 @@ import Constants
 
 class StartScreen(Screen):
     StartButton : Button 
+    AboutButton : Button
     Buttons : list[Button] = []
     def __init__(self) -> None:
         super().__init__()
-        self.StartButton = Button(250,250,70,30,"Start",pygame.font.Font(None,20),(99,34,213),(120,70,19))
+        self.StartButton = Button(Constants.SCREEN_WIDTH/2-35,Constants.SCREEN_HIEGHT/2-30,70,30,"Start",pygame.font.Font(None,20),(99,34,213),(120,70,19))
+        self.AboutButton = Button(Constants.SCREEN_WIDTH-80,Constants.SCREEN_HIEGHT-100,50,30,"About",pygame.font.Font(None,20),(99,34,213),(120,70,19))
         self.Buttons.append(self.StartButton)
+        self.Buttons.append(self.AboutButton)
         
         pass
     def handle_events(self, events )-> None:
@@ -17,7 +20,9 @@ class StartScreen(Screen):
             if event.type == pygame.MOUSEBUTTONDOWN :
                 if self.StartButton.is_hovered(pygame.mouse.get_pos()) :
                     print("switch to Game screen")
-                    self.next_screen= "Game"
+                    Screen.next_screen= "Game"
+                if self.AboutButton.is_hovered(pygame.mouse.get_pos()) :
+                    Screen.next_screen = "About"
             pass
     
     def draw(self, screen)-> None:
