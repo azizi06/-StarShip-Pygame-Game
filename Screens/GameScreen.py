@@ -11,7 +11,7 @@ from Components.PauseSurface import PauseSurface
 from Components.LoseSurface import LoseSurface
 from Components.TextArea import TextArea
 import Constants
-import Game
+from Game import Game
 class GameScreen(Screen) :
     PauseScreen = PauseSurface()
     LoseScreen = LoseSurface()
@@ -48,7 +48,7 @@ class GameScreen(Screen) :
 
         pass
     def update(self)-> None:
-        
+  
         mouse_pos = pygame.mouse.get_pos()
         for button in self.Buttons :
             button.update(mouse_pos)
@@ -92,6 +92,11 @@ class GameScreen(Screen) :
                     Screen.next_screen = "Start"
                 if self.PauseButton.is_hovered(mouse_pos) and not self.lose:
                     self.pause = not self.pause
+                if self.lose and self.LoseScreen.Restart.is_hovered(mouse_pos) :
+                    self.restart()
+                if self.pause and self.PauseScreen.Restart.is_hovered(mouse_pos) :
+                   self.restart()
+
         if not self.lose :
             self.CeckCollide()
       
@@ -117,6 +122,17 @@ class GameScreen(Screen) :
 
                 self.player.kill()
     def restart(self) -> None :
+        self.pause = False
+        self.lose = False
+        self.player  = StarShip()
+        self.Player.add(self.player)
+        self.Health.add(Heart(Constants.SCREEN_WIDTH-100))
+        self.Health.add(Heart(Constants.SCREEN_WIDTH-150))
+        self.Health.add(Heart(Constants.SCREEN_WIDTH-200))
+        self.Health.add(Heart(Constants.SCREEN_WIDTH-250))
+        self.Health.add(Heart(Constants.SCREEN_WIDTH-300))
+        Game.restart()
+        self.ScoreTextArea.setText("Score {}".format(Game.SCORE))
         pass
         
 

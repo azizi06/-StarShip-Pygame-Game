@@ -2,7 +2,7 @@ import pygame
 import Constants
 from Components.Button import Button
 from Components.TextArea import TextArea
-import Game
+from Game import Game
 class LoseSurface :
     score : TextArea
     pause : TextArea
@@ -15,7 +15,7 @@ class LoseSurface :
         self.current_color = (247, 208, 138)
       #  self.font = pygame.font.Font(None,20)
 
-        self.Restart =  Button(self.rect.centerx-35,self.rect.y*2,70,30,"Start",pygame.font.Font(None,20),(99,34,213),(120,70,19))
+        self.Restart = Button(self.rect.centerx-35,self.rect.y*2,70,30,"restart",pygame.font.Font(None,20),(99,34,213),(120,70,19))
         self.score = TextArea(None,"Score {}".format(Game.SCORE),20,(self.rect.x*1.3,self.rect.y*1.4))
         self.pause = TextArea(None,"You Lost",20,(self.rect.centerx,self.rect.y*1.2))
         self.Texts.append(self.pause)

@@ -15,14 +15,15 @@ from Screens.Screen import Screen
 
 import main1
 class App:
-    ScreenMap : dict[str,Screen]= {
+    ScreenMap : dict[str,Screen] =  { 
             "About" : AboutScreen(),
             "Start" : StartScreen(),
             "Game" : GameScreen()
-    }
+        }
     def __init__(self) -> None:
         self.runing = True
         pygame.init()
+      
        
     def run(self):
         FPS =  pygame.time.Clock()
@@ -47,5 +48,4 @@ class App:
             pygame.display.update()     
             FPS.tick(Constants.FPS)
 if __name__ == "__main__" :
-  
    App().run()
