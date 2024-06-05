@@ -15,14 +15,15 @@ from Screens.Screen import Screen
 
 import main1
 class App:
-    ScreenMap : dict[str,Screen] =  { 
+   
+    def __init__(self) -> None:
+        self.runing = True
+        pygame.init()
+        self.ScreenMap : dict[str,Screen] =  { 
             "About" : AboutScreen(),
             "Start" : StartScreen(),
             "Game" : GameScreen()
         }
-    def __init__(self) -> None:
-        self.runing = True
-        pygame.init()
       
        
     def run(self):

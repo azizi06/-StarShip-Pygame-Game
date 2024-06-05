@@ -12,7 +12,9 @@ from Components.LoseSurface import LoseSurface
 from Components.TextArea import TextArea
 import Constants
 from Game import Game
+from Components.Sound import Sound
 class GameScreen(Screen) :
+  
     PauseScreen = PauseSurface()
     LoseScreen = LoseSurface()
     Meteors : pygame.sprite.Group = pygame.sprite.Group()
@@ -43,20 +45,20 @@ class GameScreen(Screen) :
         self.Health.add(Heart(Constants.SCREEN_WIDTH-300))
         self.ScoreTextArea = TextArea(None,"Score {}".format(Game.SCORE),20,(Constants.SCREEN_WIDTH*0.4,20))
         self.Texts.append(self.ScoreTextArea)
-        
+        self.SoundTheme =  pygame.mixer.Sound(Sound.theme_sound)
       
 
         pass
     def update(self)-> None:
-  
+    
         mouse_pos = pygame.mouse.get_pos()
         for button in self.Buttons :
             button.update(mouse_pos)
-        
+        self.Meteors.update()
         self.Background.update()
         if not self.pause and not self.lose :    
+            #self.SoundTheme.play()
             self.player.update()
-            self.Meteors.update()
             self.Health.update()
             self.Stars.update()
         elif self.pause :
@@ -103,6 +105,7 @@ class GameScreen(Screen) :
     def CeckCollide(self) -> None :
         MeteorsCollitionList : list[Meteor] = pygame.sprite.spritecollide(self.Player.sprites()[0],self.Meteors,dokill=True)
         StarsCollitionList : list[Meteor] = pygame.sprite.spritecollide(self.Player.sprites()[0],self.Stars,dokill=True)
+
         if pygame.sprite.Group.__len__(self.Meteors) == 0:
             rand : int = random.randint(Constants.METEOR_NUMBER,Constants.METEOR_NUMBER*2)
             for i in range(rand) :
@@ -113,14 +116,18 @@ class GameScreen(Screen) :
             for i in range(rand) :
                 self.Stars.add(Star())
         if len(StarsCollitionList) :
+            pygame.mixer.Sound(Sound.star_sound).play()
             Game.SCORE += len(StarsCollitionList)
             self.ScoreTextArea.setText("Score {}".format(Game.SCORE))
         if len(MeteorsCollitionList) :
+            pygame.mixer.Sound(Sound.crash_sound).play()
             self.Health.sprites()[-1].kill() if pygame.sprite.Group.__len__(self.Health) != 0 else 0
             if pygame.sprite.Group.__len__(self.Health) == 0 :
                 self.lose = True
-
                 self.player.kill()
+            else : 
+                self.player.rect.x = 50
+                self.player.rect.y = Constants.SCREEN_HIEGHT/2 -20
     def restart(self) -> None :
         self.pause = False
         self.lose = False
